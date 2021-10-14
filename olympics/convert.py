@@ -78,10 +78,10 @@ def create_event(row, writer):
         return existing_event[sport_event_game_id]
 
 '''
-    create_link_list will contain:   id, event_id, metal
+    create_link_list will contain:   id, team_id, event_id, game_id metal
 '''
 def create_link_list(row, event, game, writer):
-    writer.writerow([row.id, event, game, row.metal])
+    writer.writerow([row.id, row.NOC, event, game, row.metal])
 
 
 
