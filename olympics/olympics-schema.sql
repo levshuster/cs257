@@ -1,6 +1,7 @@
-CREATE TABLE public.national_olympics_commities (
+CREATE TABLE public.noc_regions (
     NOC_name text,
-    NOC_abbreviation text
+    NOC_abbreviation text,
+    NOC_notes text
 );
 
 
@@ -8,20 +9,27 @@ CREATE TABLE public.national_olympics_commities (
 CREATE TABLE public.athlete (
     id integer,
     last_name text,
-    first_name text
+    whole_name text,
+    sex text
 );
 
-CREATE TABLE public.medal (
+CREATE TABLE public.game (
     id integer,
     year integer,
-    city text,
-    sport text,
-    event text,
-    medal text
+    season text,
+    city text
 );
 
-CREATE TABLE public.metal_athlete_team (
-    metal_ID integer,
+CREATE TABLE public.event (
+    id integer,
+    sport text,
+    athletic_event text
+);
+
+CREATE TABLE public.athlete_NOC_event_game_metal (
     athlete_ID integer,
-    NOC_abbreviation text
+    NOC_abbreviation text,
+    event_ID integer
+    game_ID integer,
+    metal text
 );

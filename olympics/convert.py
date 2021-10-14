@@ -27,7 +27,7 @@ def parse_athlete_events(athlete_events_input_file_name):
     athlete_writer = create_destination_csv('athlete.csv')
     game_writer = create_destination_csv('game.csv')
     event_writer = create_destination_csv('event.csv')
-    link_list_writer = create_destination_csv('metalAthleteTeam.csv')
+    link_list_writer = create_destination_csv('athlete_NOC_event_game_metal.csv')
 
     for row in reader:
         working_row = parsed_row(row)
