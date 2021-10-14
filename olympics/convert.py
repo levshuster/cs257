@@ -37,8 +37,8 @@ def parse_athlete_events(athlete_events_input_file_name):
 
         create_athlete(working_row, athlete_writer)
         game = create_game(working_row, game_writer)
-        event = create_event(working_row, game, event_writer)
-        create_link_list(working_row, event, link_list_writer)
+        event = create_event(working_row, event_writer)
+        create_link_list(working_row, event, game, link_list_writer)
 
 '''
     create_athlete will contain:   id, last name, full name, and sex
@@ -64,15 +64,15 @@ def create_game(row, writer):
         return existing_game_years[game_year_and_season]
 
 '''
-    create_event will contain:   id, game_id, sport, event
+    create_event will contain:   id, sport, event
 '''
-def create_event(row, game_id, writer):
-    sport_event_game_id = row.sport + row.event + str(game_id)
+def create_event(row, writer):
+    sport_event_game_id = row.sport + row.event
     global event_counter
     if sport_event_game_id not in existing_event:
         event_counter = event_counter +1
         existing_event[sport_event_game_id] = event_counter
-        writer.writerow([event_counter, game_id, row.sport, row.event])
+        writer.writerow([event_counter, row.sport, row.event])
         return event_counter
     else:        
         return existing_event[sport_event_game_id]
@@ -80,8 +80,8 @@ def create_event(row, game_id, writer):
 '''
     create_link_list will contain:   id, event_id, metal
 '''
-def create_link_list(row, event, writer):
-    writer.writerow([row.id, event, row.metal])
+def create_link_list(row, event, game, writer):
+    writer.writerow([row.id, event, game, row.metal])
 
 
 
