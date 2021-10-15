@@ -29,7 +29,7 @@ CREATE TABLE public.event (
 CREATE TABLE public.athlete_NOC_event_game_metal (
     athlete_ID integer,
     NOC_abbreviation text,
-    event_ID integer
+    event_ID integer,
     game_ID integer,
     metal text
 );
