@@ -1,6 +1,6 @@
 CREATE TABLE public.noc_regions (
-    NOC_name text,
     NOC_abbreviation text,
+    NOC_name text,
     NOC_notes text
 );
 
