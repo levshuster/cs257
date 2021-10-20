@@ -16,6 +16,7 @@ existing_event = dict() #stores all the olimpic events and their ids
 
 
 # used to provide unique IDs 
+# for a much cleaner way to provide uniqe ids use len(exisiting_athletes)+1
 game_counter = -1
 event_counter = -1
 
