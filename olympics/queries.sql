@@ -38,10 +38,7 @@ ORDER BY game.year;
 /*
 List all the NOCs and the number of gold medals they have won, in decreasing order of the number of gold medals.
 */
-SELECT noc_regions.NOC_name
-     , COUNT(*)
-FROM noc_regions, athlete_NOC_event_game_metal
-WHERE noc_regions.NOC_abbreviation = athlete_NOC_event_game_metal.NOC_abbreviation
-AND athlete_NOC_event_game_metal.metal = 'Gold'
-GROUP BY noc_regions.NOC_name 
-ORDER BY COUNT(*) DESC;
+SELECT noc_regions.NOC_abbreviation, COUNT(CASE WHEN athlete_NOC_event_game_metal.metal = 'Gold' THEN 1 END) 
+FROM noc_regions, athlete_NOC_event_game_metal 
+WHERE noc_regions.NOC_abbreviation = athlete_NOC_event_game_metal.NOC_abbreviation 
+GROUP BY noc_regions.NOC_abbreviation ORDER BY COUNT(CASE WHEN athlete_NOC_event_game_metal.metal = 'Gold' THEN 1 END)  DESC;

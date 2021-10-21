@@ -45,7 +45,7 @@ def print_gold(connection):
     # SQL Call
     try:
         cursor = connection.cursor()
-        query = "SELECT noc_regions.NOC_name, COUNT(*) FROM noc_regions, athlete_NOC_event_game_metal WHERE noc_regions.NOC_abbreviation = athlete_NOC_event_game_metal.NOC_abbreviation AND athlete_NOC_event_game_metal.metal = 'Gold' GROUP BY noc_regions.NOC_name  ORDER BY COUNT(*) DESC;"
+        query = "SELECT noc_regions.NOC_abbreviation, COUNT(CASE WHEN athlete_NOC_event_game_metal.metal = 'Gold' THEN 1 END) FROM noc_regions, athlete_NOC_event_game_metal WHERE noc_regions.NOC_abbreviation = athlete_NOC_event_game_metal.NOC_abbreviation GROUP BY noc_regions.NOC_abbreviation ORDER BY COUNT(CASE WHEN athlete_NOC_event_game_metal.metal = 'Gold' THEN 1 END)  DESC;"
         cursor.execute(query)
     except Exception as e:
         print(e)
@@ -56,7 +56,6 @@ def print_gold(connection):
     print('===== All NOCs and the number of their gold metals =====')
     for row in cursor:
         print(row[0], row[1])
-        print()
 
 def print_athletes(input_NOC):
     # SQL Call
