@@ -33,6 +33,7 @@ AND game.id = athlete_NOC_event_game_metal.game_ID
 AND noc_regions.NOC_abbreviation = athlete_NOC_event_game_metal.NOC_abbreviation
 AND athlete.whole_name LIKE '%Greg%'
 AND athlete.whole_name LIKE '%Louganis%'
+AND athlete_NOC_event_game_metal.metal != 'NA'
 ORDER BY game.year;
 
 /*
