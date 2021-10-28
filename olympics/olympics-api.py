@@ -134,7 +134,7 @@ def get_medalists(games_id):
 
     connection = get_connection()
 
-    noc = flask.request.args.get('noc')
+    noc = flask.request.args.get('noc', default= "NA")
 
     query = '''SELECT athlete.id, athlete.whole_name, athlete.sex, event.sport, event.athletic_event, athlete_NOC_event_game_metal.metal
     FROM athlete, event, athlete_NOC_event_game_metal, game
@@ -143,8 +143,8 @@ def get_medalists(games_id):
     AND athlete_NOC_event_game_metal.game_ID = game.ID
     AND game.ID = ''' + games_id
 
-    # if noc:
-    #     query += ' AND athlete_NOC_event_game_metal.NOC_abbreviation = ' + noc
+    if noc != 'NA':
+        query += " AND athlete_NOC_event_game_metal.NOC_abbreviation = '" + noc +"'"
     
     query += ' ORDER BY athlete.whole_name;'
 
