@@ -24,29 +24,22 @@ def get_connection():
     return connection
 
 
+'''    
+    REQUEST: /games
 
-# @app.route('/')
-# def hello():
-#     return 'Hello, Citizen of CS257.'
+    RESPONSE: a JSON list of dictionaries, each of which represents one
+    Olympic games, sorted by year. Each dictionary in this list will have
+    the following fields.
 
-
-# '''    
-#     REQUEST: /games
-
-#     RESPONSE: a JSON list of dictionaries, each of which represents one
-#     Olympic games, sorted by year. Each dictionary in this list will have
-#     the following fields.
-
-#     id -- (INTEGER) a unique identifier for the games in question
-#     year -- (INTEGER) the 4-digit year in which the games were held (e.g. 1992)
-#     season -- (TEXT) the season of the games (either "Summer" or "Winter")
-#     city -- (TEXT) the host city (e.g. "Barcelona")
-# '''
+    id -- (INTEGER) a unique identifier for the games in question
+    year -- (INTEGER) the 4-digit year in which the games were held (e.g. 1992)
+    season -- (TEXT) the season of the games (either "Summer" or "Winter")
+    city -- (TEXT) the host city (e.g. "Barcelona")
+'''
 @app.route('/games')
 def get_games():
     connection = get_connection()
 
-    # SQL Call
     try:
         cursor = connection.cursor()
         query =  '''SELECT game.id, game.year, game.season, game.city FROM game
@@ -68,6 +61,7 @@ def get_games():
         olympics_games_list.append(olympics_game)
 
     connection.close()    
+
     return json.dumps(olympics_games_list)
 
 
@@ -86,7 +80,6 @@ def get_nocs():
 
     connection = get_connection()
 
-    # SQL Call
     try:
         cursor = connection.cursor()
         query =  '''SELECT noc_regions.NOC_abbreviation, noc_regions.NOC_name FROM noc_regions
@@ -106,8 +99,8 @@ def get_nocs():
         noc_regions_list.append(noc_region)
 
     connection.close()    
-    return json.dumps(noc_regions_list)
 
+    return json.dumps(noc_regions_list)
 
 
 '''
@@ -131,10 +124,9 @@ def get_nocs():
 @app.route('/medalists/games/<games_id>')
 def get_medalists(games_id):
 
-
     connection = get_connection()
 
-    noc = flask.request.args.get('noc', default= "NA")
+    noc = flask.request.args.get('noc')
 
     query = '''SELECT athlete.id, athlete.whole_name, athlete.sex, event.sport, event.athletic_event, athlete_NOC_event_game_metal.metal
     FROM athlete, event, athlete_NOC_event_game_metal, game
@@ -143,18 +135,20 @@ def get_medalists(games_id):
     AND athlete_NOC_event_game_metal.game_ID = game.ID
     AND game.ID = ''' + games_id
 
-    if noc != 'NA':
+    # Adds GET parameter noc if pertenent 
+    if noc:
         query += " AND athlete_NOC_event_game_metal.NOC_abbreviation = '" + noc +"'"
     
+    # Not needed
     query += ' ORDER BY athlete.whole_name;'
 
-    # SQL Call
     try:
         cursor = connection.cursor()
         cursor.execute(query)
     except Exception as e:
         print(e)
         exit()
+
     # Convert Results to JSON format
     athletes_list = []
     for row in cursor:
@@ -166,6 +160,7 @@ def get_medalists(games_id):
         athlete['event'] = row[4]
         athlete['medal'] = row[5]
 
+        # Only add athletes who placed
         if athlete['medal'] != "NA":
             athletes_list.append(athlete)
 
